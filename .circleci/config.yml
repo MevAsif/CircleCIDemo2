@@ -57,8 +57,7 @@ jobs:
       - *save_workspace_artifacts
       - run:
           name: Deploy to hockey app
-          command:
-                - source scripts/deployHockeyApp.sh && uploadToHockeyApp
+          command: sh ./deploy.sh
 
 workflows:
   version: 2
