@@ -11,6 +11,6 @@ curl \
 -F "repository_url=$CIRCLE_REPOSITORY_URL" \
 -F "build_server_url=$CIRCLE_BUILD_URL" \
 -F "commit_sha=$CIRCLE_SHA1" \
--F "ipa=@app/build/outputs/apk/app-debug.apk" \
+-F "ipa=@CircleCIDemo2/build/outputs/apk/apk/debug/app-debug.apk" \
 -H "X-HockeyAppToken: $HockeyAppToken" \
 https://rink.hockeyapp.net/api/2/apps/$AndroidAppId/app_versions/upload
