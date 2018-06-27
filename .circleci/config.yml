@@ -31,8 +31,4 @@ jobs:
           path: app/build/outputs/apk/
           destination: apks/
 
-      deployment:
-          hockey:
-          branch: master
-          commands:
-           - source scripts/deployHockeyApp.sh && uploadToHockeyApp
+      
