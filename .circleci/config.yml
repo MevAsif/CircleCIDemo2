@@ -56,6 +56,9 @@ jobs:
       # storing to be visible on api as an outcome of the last build
       - *save_workspace_artifacts
       - run:
+          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          command: sudo chmod +x ./deploy.sh
+      - run:
           name: Deploy to hockey app
           command: sh ./deploy.sh
 
