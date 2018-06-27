@@ -60,7 +60,8 @@ jobs:
           command: sudo chmod +x ./deploy.sh
       - run:
           name: Deploy to hockey app
-          command: sh ./deploy.sh
+          commands:
+                - ./deploy.sh
 
 workflows:
   version: 2
