@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 AndroidAppId=4e761043b5b648ff8d7c7345f8f3a8f8
-HockeyAppToken=b99ac9f308ae48d792e08279b0bf107e
+HockeyAppToken=ef4eaad18b6d46709739cffb3ae3be87
 
 curl \
 -F "status=2" \
