@@ -61,6 +61,12 @@ jobs:
       - run:
           name: Deploy to hockey app
           command: ./deploy.sh
+      - run:
+          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          command: sudo chmod +x ./uploadseetest.sh
+      - run:
+          name: Deploy to Seetestcould
+          command: ./uploadseetest.sh
 
 workflows:
   version: 2
