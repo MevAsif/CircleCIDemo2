@@ -49,7 +49,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/openjdk:8-jdk
     steps:
       - checkout
       - *attach_workspace_artifacts
