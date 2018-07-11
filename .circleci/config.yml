@@ -59,10 +59,10 @@ jobs:
       - *save_workspace_artifacts
       - run:
          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./deploy.sh
+         command: sudo chmod +x ./uploadseetest.sh
       - run:
           name: Deploy to hockey app
-          command: ./deploy.sh
+          command: ./uploadseetest.sh
 
 workflows:
   version: 2
