@@ -45,39 +45,7 @@ jobs:
             - outputs
 #      - store_test_results:
 #          path: app/build/test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-
-  deploy:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - *attach_workspace_artifacts
-      # storing to be visible on api as an outcome of the last build
-      - *save_workspace_artifacts
-      - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./deploy.sh
-      - run:
-          name: Deploy to hockey app
-          command: ./deploy.sh
-      - run:
-          name: Deploy to Seetest cloud
-          command: ./uploadseetest.sh
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-
-
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy example
   deploy:
     docker:
           # specify the version you desire here
@@ -116,3 +84,15 @@ workflows:
 
     steps:
           - run: mvn integration-test
+
+workflows:
+  version: 2
+    build_and_test:
+      jobs:
+          - build
+          - deploy:
+          requires:
+          - build
+          - test:
+          requires:
+          - deploy
