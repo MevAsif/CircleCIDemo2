@@ -7,8 +7,8 @@ references:
     attach_workspace:
       at: outputs
 jobs:
-  build:
-    working_directory: ~/code
+  build_apk:
+working_directory: ~/code
     docker:
       - image: circleci/android:api-25-alpha
     environment:
@@ -46,36 +46,52 @@ jobs:
 #      - store_test_results:
 #          path: app/build/test-results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
-
   deploy:
     docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - *attach_workspace_artifacts
-      # storing to be visible on api as an outcome of the last build
-      - *save_workspace_artifacts
-      - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./deploy.sh
-      - run:
-          name: Deploy to hockey app
-          command: ./deploy.sh
-      - run:
-          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-          command: sudo chmod +x ./uploadseetest.sh
-      - run:
-          name: Deploy to Seetestcould
-          command: ./uploadseetest.sh
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
 
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo/Deploy/
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - run: chmod +x deploy.sh
+      - run: ./deploy.sh
+
+  test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo/Deploy/Experitest/
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - run: mvn integration-test
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_test:
     jobs:
-      - build
+      - build_apk
       - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+         requires:
+          - build_apk
+      - test:
+         requires:
+         - deploy
