@@ -7,7 +7,7 @@ references:
     attach_workspace:
       at: outputs
 jobs:
-  build:
+  build_apk:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-25-alpha
@@ -56,31 +56,24 @@ jobs:
 
   test:
     docker:
-                    # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-
-                    # Specify service dependencies here if necessary
-                    # CircleCI maintains a library of pre-built images
-                    # documented at https://circleci.com/docs/2.0/circleci-images/
-                    # - image: circleci/postgres:9.4
-
-      working_directory: ~/repo/Deploy/Experitest/
-
       environment:
-                    # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
+       MAVEN_OPTS: -Xmx3200m
 
     steps:
-          - run: mvn integration-test
+        - checkout
+        - run:
+             name: MVN
+             command: mvn integration-test
 
 workflows:
   version: 2
-    build_and_test:
-      jobs:
-          - build
-          - deploy:
-          requires:
-          - build
-          - test:
-          requires:
-          - deploy
+  build_and_test:
+    jobs:
+      - build_apk
+      - deploy:
+         requires:
+          - build_apk
+      - test:
+         requires:
+         - deploy
