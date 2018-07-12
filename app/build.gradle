@@ -6,8 +6,8 @@ android {
         applicationId "com.example.circleci.circlecidemo2"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 39
-        versionName "1.0_39_masterbranch"
+        versionCode 40
+        versionName "1.0_40_masterbranch"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
